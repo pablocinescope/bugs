@@ -1,0 +1,147 @@
+.formContainer {
+  max-width: 600px;
+}
+
+.title {
+  margin-bottom: 50px;
+
+  font-family: Inter;
+  font-weight: 600;
+  font-size: 35px;
+  line-height: 105%;
+  letter-spacing: -7%;
+}
+
+.inputContainer {
+  margin-bottom: 25px;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  border: 1px solid #4f4f4f;
+  font-size: 16px;
+
+  width: 567px;
+  height: 60px;
+  gap: 10px;
+  border-radius: 10px;
+  border-width: 1px;
+  padding-top: 10px;
+  padding-right: 25px;
+  padding-bottom: 10px;
+  padding-left: 25px;
+}
+
+.floatingLabel {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #4f4f4f;
+  transition: all 0.2s ease-out;
+  pointer-events: none;
+}
+
+.input:focus + .floatingLabel,
+.input:not(:placeholder-shown) + .floatingLabel {
+  top: -10px;
+  font-size: 12px;
+  color: #555;
+}
+
+.inputError {
+  border-color: #cd0000;
+  color: #cd0000;
+}
+
+.inputError::placeholder {
+  color: #cd0000; /* Если нужно, можно изменить и placeholder */
+}
+
+.floatingLabelError {
+  color: #cd0000;
+}
+
+.inputError + .floatingLabel {
+  color: #cd0000; /* Чтобы сразу изменялся цвет ярлыка при ошибке */
+}
+
+.errorText {
+  color: #cd0000;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.button {
+  /* Button */
+
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 15px;
+
+  width: 567px;
+  height: 60px;
+
+  /* Button active */
+  background: #0032e5;
+  border-radius: 10px;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 1;
+  align-self: stretch;
+  flex-grow: 0;
+
+  font-family: Inter;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+}
+
+.link {
+  color: #0032e5;
+  text-decoration: underline;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkboxInput {
+  display: none; /* Прячем стандартный чекбокс */
+}
