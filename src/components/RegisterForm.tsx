@@ -51,75 +51,171 @@ const RegisterForm = () => {
     <div className={styles.formContainer}>
       <h2 className={styles.title}>Тренажер формы ввода</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {inputFields.map(({ name, type, label }) => (
-          <div key={name} className={styles.inputContainer}>
-            <div className={styles.inputWrapper}>
-              <input
-                type={
-                  name === "password"
-                    ? isPasswordVisible
-                      ? "text"
-                      : "password"
-                    : type
-                }
-                id={name}
-                placeholder=' '
-                {...register(name as keyof FormData, {
-                  required: `${label} обязателен`,
-                  ...(name === "confirmPassword" && {
-                    validate: (value: string | boolean) =>
-                      value === watch("password") || "Пароли не совпадают",
-                  }),
-                  minLength: {
-                    value: 3,
-                    message: `${label} должен быть не менее 3 символов`,
-                  },
-                })}
-                className={`${styles.input} ${
-                  errors[name as keyof FormData] ? styles.inputError : ""
-                }`}
-              />
-              <label
-                htmlFor={name}
-                className={`${styles.floatingLabel} ${
-                  errors[name as keyof FormData]
-                    ? styles.floatingLabelError
-                    : ""
-                }`}
-              >
-                {label}
-              </label>
-              {name === "password" && (
-                <button
-                  type='button'
-                  onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                  style={{
-                    position: "absolute",
-                    right: "20px",
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                  }}
-                >
-                  {isPasswordVisible ? <img src={Eye} /> : <img src={Closed} />}
-                </button>
-              )}
-              {watch(name as keyof FormData)?.toString().length &&
-              !errors[name as keyof FormData] &&
-              name !== "password" ? (
-                <div className={styles.inputDone}>
-                  <img src={Done} className={styles.inputDone_icon} />
-                </div>
-              ) : undefined}
-            </div>
-            {errors[name as keyof FormData] && (
-              <p className={styles.errorText}>
-                <img src={Error} />
-                {errors[name as keyof FormData]?.message}
-              </p>
-            )}
+        <div className={styles.inputContainer}>
+          <div className={styles.inputWrapper}>
+            <input
+              type={inputFields[0].type}
+              id={inputFields[0].name}
+              placeholder=' '
+              {...register("username", {
+                required: "Имя пользователя обязательно",
+                minLength: {
+                  value: 3,
+                  message: `${inputFields[0].label} должно быть не менее 3 символов`,
+                },
+              })}
+              className={`${styles.input} ${
+                errors["username"] ? styles.inputError : ""
+              }`}
+            />
+            <label
+              htmlFor={inputFields[0].name}
+              className={`${styles.floatingLabel} ${
+                errors["username"] ? styles.floatingLabelError : ""
+              }`}
+            >
+              {inputFields[0].label}
+            </label>
+            {watch("username")?.toString().length && !errors["username"] ? (
+              <div className={styles.inputDone}>
+                <img src={Done} className={styles.inputDone_icon} />
+              </div>
+            ) : undefined}
           </div>
-        ))}
+          {errors["username"] && (
+            <p className={styles.errorText}>
+              <img src={Error} />
+              {errors["username"]?.message}
+            </p>
+          )}
+        </div>
+        <div className={styles.inputContainer}>
+          <div className={styles.inputWrapper}>
+            <input
+              type={inputFields[1].type}
+              id={inputFields[1].name}
+              placeholder=' '
+              {...register("email", {
+                required: "Почта обязательна",
+                minLength: {
+                  value: 3,
+                  message: `${inputFields[0].label} должна быть не менее 3 символов`,
+                },
+              })}
+              className={`${styles.input} ${
+                errors["email"] ? styles.inputError : ""
+              }`}
+            />
+            <label
+              htmlFor={inputFields[0].name}
+              className={`${styles.floatingLabel} ${
+                errors["email"] ? styles.floatingLabelError : ""
+              }`}
+            >
+              {inputFields[0].label}
+            </label>
+            {watch("email")?.toString().length && !errors["email"] ? (
+              <div className={styles.inputDone}>
+                <img src={Done} className={styles.inputDone_icon} />
+              </div>
+            ) : undefined}
+          </div>
+          {errors["email"] && (
+            <p className={styles.errorText}>
+              <img src={Error} />
+              {errors["email"]?.message}
+            </p>
+          )}
+        </div>
+        <div className={styles.inputContainer}>
+          <div className={styles.inputWrapper}>
+            <input
+              type={isPasswordVisible ? "text" : "password"}
+              id={inputFields[2].name}
+              placeholder=' '
+              {...register("password", {
+                required: `${inputFields[2].label} обязателен`,
+                minLength: {
+                  value: 3,
+                  message: `${inputFields[2].label} должен быть не менее 3 символов`,
+                },
+              })}
+              className={`${styles.input} ${
+                errors["password"] ? styles.inputError : ""
+              }`}
+            />
+            <label
+              htmlFor={inputFields[2].name}
+              className={`${styles.floatingLabel} ${
+                errors["password"] ? styles.floatingLabelError : ""
+              }`}
+            >
+              {inputFields[2].label}
+            </label>
+            <button
+              type='button'
+              onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+              style={{
+                position: "absolute",
+                right: "20px",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              {isPasswordVisible ? <img src={Eye} /> : <img src={Closed} />}
+            </button>
+          </div>
+          {errors["password"] && (
+            <p className={styles.errorText}>
+              <img src={Error} />
+              {errors["password"]?.message}
+            </p>
+          )}
+        </div>
+        <div className={styles.inputContainer}>
+          <div className={styles.inputWrapper}>
+            <input
+              type={inputFields[3].type}
+              id={inputFields[3].name}
+              placeholder=' '
+              {...register("confirmPassword", {
+                required: `${inputFields[3].label} обязателен`,
+
+                validate: (value: string | boolean) =>
+                  value === watch("password") || "Пароли не совпадают",
+
+                minLength: {
+                  value: 3,
+                  message: `${inputFields[3].label} должен быть не менее 3 символов`,
+                },
+              })}
+              className={`${styles.input} ${
+                errors["confirmPassword"] ? styles.inputError : ""
+              }`}
+            />
+            <label
+              htmlFor={inputFields[3].name}
+              className={`${styles.floatingLabel} ${
+                errors["confirmPassword"] ? styles.floatingLabelError : ""
+              }`}
+            >
+              {inputFields[3].label}
+            </label>
+            {watch("confirmPassword")?.toString().length &&
+            !errors["confirmPassword"] ? (
+              <div className={styles.inputDone}>
+                <img src={Done} className={styles.inputDone_icon} />
+              </div>
+            ) : undefined}
+          </div>
+          {errors["confirmPassword"] && (
+            <p className={styles.errorText}>
+              <img src={Error} />
+              {errors["confirmPassword"]?.message}
+            </p>
+          )}
+        </div>
 
         <div className='checkboxContainer'>
           <div className={styles.checkboxContainer}>
