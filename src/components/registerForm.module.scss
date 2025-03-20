@@ -72,9 +72,17 @@
   color: #cd0000; /* Чтобы сразу изменялся цвет ярлыка при ошибке */
 }
 
+.inputDone {
+  position: absolute;
+  right: 20px;
+}
+
 .errorText {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   color: #cd0000;
-  font-size: 12px;
+  font-size: 16px;
   margin-top: 5px;
 }
 

@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import styles from "./registerForm.module.scss";
 import { useState } from "react";
+import { Done, Error, Eye, Closed } from "../assets";
 
 type FormData = {
   username: string;
@@ -9,6 +10,17 @@ type FormData = {
   confirmPassword: string;
   terms: boolean;
 };
+
+const inputFields = [
+  { name: "username", type: "text", label: "Имя пользователя" },
+  { name: "email", type: "string", label: "Email" },
+  { name: "password", type: "password", label: "Пароль" },
+  {
+    name: "confirmPassword",
+    type: "password",
+    label: "Повторите пароль",
+  },
+];
 
 const RegisterForm = () => {
   const {
@@ -19,11 +31,12 @@ const RegisterForm = () => {
   } = useForm<FormData>({
     mode: "onChange",
     defaultValues: {
-      terms: false
-    }
+      terms: false,
+    },
   });
 
   const [checkboxValue, setCheckboxValue] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const handleClick = (val: boolean) => {
     setCheckboxValue(!val);
@@ -38,26 +51,23 @@ const RegisterForm = () => {
     <div className={styles.formContainer}>
       <h2 className={styles.title}>Тренажер формы ввода</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {[
-          { name: "username", type: "text", label: "Имя пользователя" },
-          { name: "email", type: "email", label: "Email" },
-          { name: "password", type: "password", label: "Пароль" },
-          {
-            name: "confirmPassword",
-            type: "password",
-            label: "Повторите пароль",
-          },
-        ].map(({ name, type, label }) => (
+        {inputFields.map(({ name, type, label }) => (
           <div key={name} className={styles.inputContainer}>
             <div className={styles.inputWrapper}>
               <input
-                type={type}
+                type={
+                  name === "password"
+                    ? isPasswordVisible
+                      ? "text"
+                      : "password"
+                    : type
+                }
                 id={name}
                 placeholder=' '
                 {...register(name as keyof FormData, {
                   required: `${label} обязателен`,
                   ...(name === "confirmPassword" && {
-                    validate: (value) =>
+                    validate: (value: string | boolean) =>
                       value === watch("password") || "Пароли не совпадают",
                   }),
                   minLength: {
@@ -79,9 +89,32 @@ const RegisterForm = () => {
               >
                 {label}
               </label>
+              {name === "password" && (
+                <button
+                  type='button'
+                  onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                  style={{
+                    position: "absolute",
+                    right: "20px",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  {isPasswordVisible ? <img src={Eye} /> : <img src={Closed} />}
+                </button>
+              )}
+              {watch(name as keyof FormData)?.toString().length &&
+              !errors[name as keyof FormData] &&
+              name !== "password" ? (
+                <div className={styles.inputDone}>
+                  <img src={Done} className={styles.inputDone_icon} />
+                </div>
+              ) : undefined}
             </div>
-            {errors[name as keyof FormData] && ( // Приводим name к ключу типа FormData
+            {errors[name as keyof FormData] && (
               <p className={styles.errorText}>
+                <img src={Error} />
                 {errors[name as keyof FormData]?.message}
               </p>
             )}
@@ -138,7 +171,12 @@ const RegisterForm = () => {
               <span className={styles.link}>Условиями использования</span>
             </label>
           </div>{" "}
-          {errors.terms && <p className='errorText'>{errors.terms.message}</p>}
+          {errors.terms && (
+            <p className={styles.errorText}>
+              <img src={Error} />
+              {errors.terms.message}
+            </p>
+          )}
         </div>
 
         <button
